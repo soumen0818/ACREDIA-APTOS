@@ -1,0 +1,12 @@
+[package]
+name = "acredia"
+version = "0.1.0"
+
+[dependencies]
+AptosFramework = { git = "https://github.com/aptos-labs/aptos-core.git", subdir = "aptos-move/framework/aptos-framework", rev = "mainnet" }
+MoveStdlib = { git = "https://github.com/aptos-labs/aptos-core.git", subdir = "aptos-move/framework/move-stdlib", rev = "mainnet" }
+
+[addresses]
+acredia = "0x262e014c482dbed31f46796ed1acd3ebe69a8d4572c5177a7774ef9add39d029"
+std = "0x1"
+aptos_framework = "0x1"

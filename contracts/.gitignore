@@ -1,0 +1,21 @@
+# Dependencies
+node_modules
+
+# Environment variables
+.env
+
+# Build artifacts
+build/
+coverage/
+coverage.json
+typechain/
+typechain-types/
+
+# Hardhat files
+cache*
+artifacts*
+
+# Aptos config
+.aptos/
+testnet/
+config.yaml
