@@ -1,0 +1,23 @@
+{
+    "name": "ACREDIA - Credential Verification Platform",
+    "short_name": "ACREDIA",
+    "description": "Decentralized credential verification and management platform on Aptos blockchain",
+    "start_url": "/",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "background_color": "#ffffff",
+    "icons": [
+        {
+            "src": "/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}
