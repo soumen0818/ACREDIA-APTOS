@@ -3,7 +3,7 @@ import { supabase } from '@/lib/supabase';
 
 export async function POST(request: NextRequest) {
     try {
-        const { walletAddress } = await request.json();
+        const { walletAddress, transactionHash } = await request.json();
 
         if (!walletAddress) {
             return NextResponse.json(
@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Find institution by wallet address and update/verify them
+        // Find institution by wallet address
         const { data: institution, error: findError } = await supabase
             .from('institutions')
             .select('*')
@@ -28,10 +28,13 @@ export async function POST(request: NextRequest) {
         }
 
         if (institution) {
-            // Update existing institution to mark as verified
+            // Update institution - mark as verified and store transaction hash
             const { error: updateError } = await supabase
                 .from('institutions')
-                .update({ verified: true })
+                .update({
+                    verified: true,
+                    authorization_tx_hash: transactionHash
+                })
                 .eq('id', institution.id);
 
             if (updateError) {
@@ -44,16 +47,19 @@ export async function POST(request: NextRequest) {
 
             return NextResponse.json({
                 success: true,
-                message: 'Institution verified successfully',
+                message: 'Institution authorized and verified successfully',
                 institution,
+                transactionHash,
             });
         }
 
-        // If no institution found with this wallet, return info but don't fail
+        // If no institution found with this wallet, return success anyway
+        // The dashboard will check blockchain directly
         return NextResponse.json({
             success: true,
-            message: 'Wallet authorized on blockchain. Institution will be linked when they connect.',
+            message: 'Wallet authorized on blockchain. Institution will be verified when they connect.',
             wallet: walletAddress,
+            transactionHash,
         });
     } catch (error) {
         console.error('Error in update-authorization:', error);
