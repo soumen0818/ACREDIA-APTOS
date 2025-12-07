@@ -15,6 +15,7 @@ import { useWallet } from '@/contexts/WalletContext';
 import { WalletConnectButton } from '@/components/shared/WalletConnectButton';
 import { toast } from 'sonner';
 import { supabase } from '@/lib/supabase';
+import { isIssuerAuthorized } from '@/lib/aptos';
 
 import StudentCredentialsList from '@/components/student/StudentCredentialsList';
 
@@ -25,6 +26,8 @@ function DashboardContent() {
     const [refreshTrigger, setRefreshTrigger] = useState(0);
     const [institutionId, setInstitutionId] = useState<string>('');
     const [loading, setLoading] = useState(true);
+    const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
+    const [checkingAuth, setCheckingAuth] = useState(false);
 
     // Fetch institution ID from database
     useEffect(() => {
@@ -80,6 +83,41 @@ function DashboardContent() {
 
         fetchInstitutionId();
     }, [user, userRole]);
+
+    // Check authorization status from blockchain when wallet is connected
+    useEffect(() => {
+        const checkBlockchainAuthorization = async () => {
+            if (!account?.address || userRole !== 'institution') {
+                return;
+            }
+
+            setCheckingAuth(true);
+            try {
+                console.log('🔍 Checking blockchain authorization for:', account.address);
+                const authorized = await isIssuerAuthorized(account.address);
+                setIsAuthorized(authorized);
+                console.log('✅ Blockchain authorization status:', authorized ? 'Authorized' : 'Not Authorized');
+
+                // Update database to sync with blockchain state
+                if (authorized) {
+                    const { error } = await supabase
+                        .from('institutions')
+                        .update({ verified: true })
+                        .eq('wallet_address', account.address);
+
+                    if (error) {
+                        console.error('Failed to update database verification status:', error);
+                    }
+                }
+            } catch (error) {
+                console.error('Error checking blockchain authorization:', error);
+            } finally {
+                setCheckingAuth(false);
+            }
+        };
+
+        checkBlockchainAuthorization();
+    }, [account?.address, userRole]);
 
     const handleSignOut = async () => {
         await signOut();
@@ -158,7 +196,7 @@ function DashboardContent() {
                                 <h3 className="text-xl font-bold text-gray-900 mb-4">
                                     Account Information
                                 </h3>
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                                     <div>
                                         <p className="text-sm text-gray-500">Email</p>
                                         <p className="text-gray-900 font-medium">{user?.email}</p>
@@ -166,6 +204,32 @@ function DashboardContent() {
                                     <div>
                                         <p className="text-sm text-gray-500">Role</p>
                                         <p className="text-gray-900 font-medium capitalize">{userRole}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-sm text-gray-500">Authorization Status</p>
+                                        <p className="text-gray-900 font-medium">
+                                            {checkingAuth ? (
+                                                <span className="flex items-center text-blue-600">
+                                                    <Shield className="h-4 w-4 mr-1 animate-spin" />
+                                                    Checking...
+                                                </span>
+                                            ) : !account ? (
+                                                <span className="flex items-center text-gray-500">
+                                                    <Shield className="h-4 w-4 mr-1" />
+                                                    Connect Wallet First
+                                                </span>
+                                            ) : isAuthorized ? (
+                                                <span className="flex items-center text-green-600">
+                                                    <Shield className="h-4 w-4 mr-1" />
+                                                    Authorized
+                                                </span>
+                                            ) : (
+                                                <span className="flex items-center text-red-600">
+                                                    <Shield className="h-4 w-4 mr-1" />
+                                                    Not Authorized
+                                                </span>
+                                            )}
+                                        </p>
                                     </div>
                                     <div>
                                         <p className="text-sm text-gray-500">Wallet Status</p>
@@ -178,6 +242,24 @@ function DashboardContent() {
                                             ) : (
                                                 <span className="text-orange-600">Not Connected</span>
                                             )}
+                                        </p>
+                                    </div>
+                                </div>
+                            </Card>
+                        )}
+
+                        {/* Authorization Warning */}
+                        {institutionId && account && !isAuthorized && (
+                            <Card className="border-red-200 bg-red-50 p-6">
+                                <div className="flex items-start space-x-3">
+                                    <Shield className="h-6 w-6 text-red-600 mt-1" />
+                                    <div>
+                                        <h3 className="text-lg font-bold text-red-900 mb-2">
+                                            Authorization Required
+                                        </h3>
+                                        <p className="text-red-800 mb-4">
+                                            Your institution needs to be authorized by the admin to issue credentials.
+                                            Please contact the administrator to authorize your wallet address: <strong>{account.address}</strong>
                                         </p>
                                     </div>
                                 </div>
