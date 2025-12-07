@@ -8,6 +8,7 @@ import {
     isPetraInstalled,
     signAndSubmitTransaction as petraSignAndSubmit
 } from '@/lib/petraWallet';
+import { supabase } from '@/lib/supabase';
 
 interface WalletContextType {
     isWalletConnected: boolean;
@@ -54,6 +55,46 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
         try {
             const acc = await connectPetraWallet();
             setAccount(acc);
+
+            // Update wallet address in database if user is logged in
+            try {
+                const { data: { user } } = await supabase.auth.getUser();
+                if (user && acc.address) {
+                    console.log('💾 Updating wallet address for user:', user.id);
+
+                    // Check user role from metadata
+                    const userRole = user.user_metadata?.role;
+
+                    if (userRole === 'institution') {
+                        // Update institution wallet address
+                        const { error: updateError } = await supabase
+                            .from('institutions')
+                            .update({ wallet_address: acc.address })
+                            .eq('auth_user_id', user.id);
+
+                        if (updateError) {
+                            console.error('Failed to update institution wallet:', updateError);
+                        } else {
+                            console.log('✅ Institution wallet address updated:', acc.address);
+                        }
+                    } else if (userRole === 'student') {
+                        // Update student wallet address
+                        const { error: updateError } = await supabase
+                            .from('students')
+                            .update({ wallet_address: acc.address })
+                            .eq('auth_user_id', user.id);
+
+                        if (updateError) {
+                            console.error('Failed to update student wallet:', updateError);
+                        } else {
+                            console.log('✅ Student wallet address updated:', acc.address);
+                        }
+                    }
+                }
+            } catch (dbError) {
+                console.error('Error updating database:', dbError);
+                // Don't throw - wallet connection succeeded
+            }
         } catch (error) {
             console.error('Connection failed:', error);
             throw error;
