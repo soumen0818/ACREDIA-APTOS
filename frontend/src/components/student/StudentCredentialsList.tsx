@@ -5,6 +5,14 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from '@/components/ui/dialog';
 import { supabase } from '@/lib/supabase';
 import { getIPFSUrl } from '@/lib/ipfs';
 import {
@@ -19,6 +27,7 @@ import {
     GraduationCap,
     RefreshCw,
     AlertCircle,
+    Info,
 } from 'lucide-react';
 import { format } from 'date-fns';
 import QRCodeModal from './QRCodeModal';
@@ -232,9 +241,14 @@ export default function StudentCredentialsList({
 
 function CredentialCard({ credential }: { credential: Credential }) {
     const metadata = credential.metadata?.credentialData || {};
+    const [showMetadata, setShowMetadata] = useState(false);
+
+    // Always generate IPFS URL if hash exists
     const ipfsUrl = credential.ipfs_hash ? getIPFSUrl(credential.ipfs_hash) : null;
+
+    // Use Aptos Explorer for blockchain transactions
     const blockchainUrl = credential.blockchain_hash
-        ? `https://sepolia.etherscan.io/tx/${credential.blockchain_hash}`
+        ? `https://explorer.aptoslabs.com/txn/${credential.blockchain_hash}?network=testnet`
         : null;
 
     const [showQRModal, setShowQRModal] = useState(false);
@@ -325,6 +339,15 @@ function CredentialCard({ credential }: { credential: Credential }) {
                     {/* Actions */}
                     <div className="flex flex-col space-y-2 ml-4">
                         <Button
+                            onClick={() => setShowMetadata(true)}
+                            variant="outline"
+                            size="sm"
+                            className="border-blue-600 text-blue-600 hover:bg-blue-50"
+                        >
+                            <Info className="h-4 w-4 mr-1" />
+                            Details
+                        </Button>
+                        <Button
                             onClick={handleGenerateQR}
                             variant="outline"
                             size="sm"
@@ -369,6 +392,120 @@ function CredentialCard({ credential }: { credential: Credential }) {
                     </div>
                 </div>
             </div>
+
+            {/* Metadata Modal */}
+            <Dialog open={showMetadata} onOpenChange={setShowMetadata}>
+                <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
+                    <DialogHeader>
+                        <DialogTitle>Credential Metadata</DialogTitle>
+                        <DialogDescription>
+                            Full credential information including IPFS data
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-4">
+                        {/* IPFS Information */}
+                        <div className="bg-gray-50 rounded-lg p-4">
+                            <h3 className="font-semibold text-gray-900 mb-2">IPFS Information</h3>
+                            <div className="space-y-2 text-sm">
+                                <div>
+                                    <span className="font-medium text-gray-700">IPFS Hash:</span>
+                                    <p className="font-mono text-xs bg-white p-2 rounded mt-1 break-all">
+                                        {credential.ipfs_hash || 'N/A'}
+                                    </p>
+                                </div>
+                                {ipfsUrl && (
+                                    <div>
+                                        <span className="font-medium text-gray-700">IPFS URL:</span>
+                                        <p className="font-mono text-xs bg-white p-2 rounded mt-1 break-all">
+                                            <a href={ipfsUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                                                {ipfsUrl}
+                                            </a>
+                                        </p>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Blockchain Information */}
+                        <div className="bg-gray-50 rounded-lg p-4">
+                            <h3 className="font-semibold text-gray-900 mb-2">Blockchain Information</h3>
+                            <div className="space-y-2 text-sm">
+                                <div>
+                                    <span className="font-medium text-gray-700">Token ID:</span>
+                                    <p className="font-mono text-xs bg-white p-2 rounded mt-1">
+                                        {credential.token_id}
+                                    </p>
+                                </div>
+                                <div>
+                                    <span className="font-medium text-gray-700">Transaction Hash:</span>
+                                    <p className="font-mono text-xs bg-white p-2 rounded mt-1 break-all">
+                                        {credential.blockchain_hash || 'N/A'}
+                                    </p>
+                                </div>
+                                {blockchainUrl && (
+                                    <a href={blockchainUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-xs inline-flex items-center">
+                                        View on Aptos Explorer <ExternalLink className="h-3 w-3 ml-1" />
+                                    </a>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Credential Metadata */}
+                        <div className="bg-gray-50 rounded-lg p-4">
+                            <h3 className="font-semibold text-gray-900 mb-2">Credential Details</h3>
+                            <div className="space-y-2 text-sm">
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <span className="font-medium text-gray-700">Institution:</span>
+                                        <p className="text-gray-900">{metadata.institutionName || 'N/A'}</p>
+                                    </div>
+                                    <div>
+                                        <span className="font-medium text-gray-700">Credential Type:</span>
+                                        <p className="text-gray-900">{metadata.credentialType || 'N/A'}</p>
+                                    </div>
+                                    <div>
+                                        <span className="font-medium text-gray-700">Degree:</span>
+                                        <p className="text-gray-900">{metadata.degree || 'N/A'}</p>
+                                    </div>
+                                    {metadata.major && (
+                                        <div>
+                                            <span className="font-medium text-gray-700">Major:</span>
+                                            <p className="text-gray-900">{metadata.major}</p>
+                                        </div>
+                                    )}
+                                    {metadata.gpa && (
+                                        <div>
+                                            <span className="font-medium text-gray-700">GPA:</span>
+                                            <p className="text-gray-900">{metadata.gpa}</p>
+                                        </div>
+                                    )}
+                                    <div>
+                                        <span className="font-medium text-gray-700">Issue Date:</span>
+                                        <p className="text-gray-900">
+                                            {metadata.issueDate ? format(new Date(metadata.issueDate), 'PPP') : 'N/A'}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <span className="font-medium text-gray-700">Status:</span>
+                                        <p className="text-gray-900">{credential.revoked ? 'Revoked' : 'Active'}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Full Metadata JSON */}
+                        <div className="bg-gray-50 rounded-lg p-4">
+                            <h3 className="font-semibold text-gray-900 mb-2">Full Metadata (JSON)</h3>
+                            <pre className="text-xs bg-white p-3 rounded overflow-x-auto">
+                                {JSON.stringify(credential.metadata, null, 2)}
+                            </pre>
+                        </div>
+                    </div>
+                    <DialogFooter>
+                        <Button onClick={() => setShowMetadata(false)}>Close</Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </>
     );
 }
