@@ -7,9 +7,10 @@ import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Upload, FileText, Loader2, CheckCircle2, Plus, X } from 'lucide-react';
-import { issueCredential, type CredentialData } from '@/lib/credentialService';
-import { isValidAptoAddress } from '@/lib/aptos';
+import { prepareCredentialMetadata, saveCredentialToDatabase, type CredentialData } from '@/lib/credentialService';
+import { isValidAptoAddress, buildIssueCredentialTx } from '@/lib/aptos';
 import { toast } from 'sonner';
+import { useWallet } from '@/contexts/WalletContext';
 
 interface Subject {
     id: string;
@@ -34,6 +35,7 @@ export function CredentialUploadForm({
     account,
     onSuccess,
 }: CredentialUploadFormProps) {
+    const { signAndSubmitTransaction } = useWallet();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -159,15 +161,53 @@ export function CredentialUploadForm({
                 subjects: subjects.length > 0 ? subjects : undefined,
             };
 
-            toast.loading('Issuing credential...', { id: 'issue-credential' });
+            // Step 1: Prepare metadata and upload to IPFS
+            toast.loading('Uploading to IPFS...', { id: 'issue-credential' });
+            const { metadata, ipfsUri, metadataHash } = await prepareCredentialMetadata(credentialData);
 
-            const result = await issueCredential(credentialData, account);
+            // Step 2: Issue credential on blockchain
+            toast.loading('Please approve the transaction in your wallet...', { id: 'issue-credential' });
+            const transaction = buildIssueCredentialTx(
+                institutionWallet,
+                formData.studentWallet,
+                metadataHash,
+                ipfsUri
+            );
 
-            toast.success('Credential issued successfully!', { id: 'issue-credential' });
-            toast.success(`Credential ID: ${result.credentialId}`, { duration: 5000 });
-            toast.success(`IPFS: ${result.metadataHash.slice(0, 20)}...`, {
-                duration: 5000,
-            });
+            const response = await signAndSubmitTransaction(transaction);
+            console.log('✅ Blockchain transaction response:', response);
+
+            // Extract token_id from transaction events
+            // Aptos transaction responses include events with the token_id
+            let tokenId: string | undefined;
+            if (response.events) {
+                const issuedEvent = response.events.find((event: any) =>
+                    event.type && event.type.includes('CredentialIssuedEvent')
+                );
+                if (issuedEvent && issuedEvent.data && issuedEvent.data.token_id) {
+                    tokenId = issuedEvent.data.token_id.toString();
+                }
+            }
+
+            // Fallback: use transaction hash as temporary tokenId if not found in events
+            if (!tokenId) {
+                console.warn('⚠️ Could not extract token_id from events, using transaction hash');
+                tokenId = response.hash || `temp-${Date.now()}`;
+            }
+
+            // Step 3: Save to database for indexing
+            toast.loading('Saving to database...', { id: 'issue-credential' });
+            const credentialId = await saveCredentialToDatabase(
+                credentialData,
+                tokenId,
+                response.hash,
+                metadata,
+                metadataHash
+            );
+
+            toast.success('✅ Credential issued successfully!', { id: 'issue-credential' });
+            toast.success(`Token ID: ${tokenId}`, { duration: 5000 });
+            toast.success(`IPFS: ${metadataHash.slice(0, 20)}...`, { duration: 5000 });
 
             // Reset form
             setFormData({
@@ -189,7 +229,7 @@ export function CredentialUploadForm({
                 onSuccess();
             }
         } catch (error: any) {
-            console.error('Error issuing credential:', error);
+            console.error('❌ Error issuing credential:', error);
             toast.error(error.message || 'Failed to issue credential', {
                 id: 'issue-credential',
             });
