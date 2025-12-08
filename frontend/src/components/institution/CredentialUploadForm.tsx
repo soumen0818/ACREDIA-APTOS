@@ -190,23 +190,25 @@ export function CredentialUploadForm({
             }
 
             // Fallback: use transaction hash as temporary tokenId if not found in events
+            // Ensure we always have a valid tokenId
+            const finalTokenId: string = tokenId || response.hash || `temp-${Date.now()}`;
+
             if (!tokenId) {
-                console.warn('⚠️ Could not extract token_id from events, using transaction hash');
-                tokenId = response.hash || `temp-${Date.now()}`;
+                console.warn('⚠️ Could not extract token_id from events, using fallback:', finalTokenId);
             }
 
             // Step 3: Save to database for indexing
             toast.loading('Saving to database...', { id: 'issue-credential' });
             const credentialId = await saveCredentialToDatabase(
                 credentialData,
-                tokenId,
+                finalTokenId,
                 response.hash,
                 metadata,
                 metadataHash
             );
 
             toast.success('✅ Credential issued successfully!', { id: 'issue-credential' });
-            toast.success(`Token ID: ${tokenId}`, { duration: 5000 });
+            toast.success(`Token ID: ${finalTokenId}`, { duration: 5000 });
             toast.success(`IPFS: ${metadataHash.slice(0, 20)}...`, { duration: 5000 });
 
             // Reset form
