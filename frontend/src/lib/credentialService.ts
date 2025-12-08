@@ -65,14 +65,13 @@ function generateCredentialHash(data: any): string {
 }
 
 /**
- * Issue a credential - saves to database and IPFS
- * Blockchain transaction handling is done in components
+ * Prepare credential metadata and upload to IPFS
+ * Returns metadata ready for blockchain transaction
  */
-export async function issueCredential(
-    data: CredentialData,
-    account: any
+export async function prepareCredentialMetadata(
+    data: CredentialData
 ): Promise<{
-    credentialId?: string;
+    metadata: CredentialMetadata;
     ipfsUri: string;
     metadataHash: string;
 }> {
@@ -81,9 +80,9 @@ export async function issueCredential(
         console.log('📤 Uploading credential file to IPFS...');
         const fileCID = await uploadToIPFS(data.file);
         const fileUrl = getIPFSUrl(fileCID);
-        console.log('✅ File uploaded:', fileUrl);
+        console.log('✅ File uploaded to IPFS:', fileUrl);
 
-        // Step 2: Generate and upload metadata to IPFS
+        // Step 2: Generate metadata
         console.log('📝 Generating metadata...');
         const metadata: CredentialMetadata = {
             name: `${data.credentialType} - ${data.studentName}`,
@@ -113,14 +112,38 @@ export async function issueCredential(
             },
         };
 
+        // Step 3: Upload metadata to IPFS
         console.log('📤 Uploading metadata to IPFS...');
-        const metadataPath = await uploadJSONToIPFS(metadata);
-        const metadataUrl = `ipfs://${metadataPath}`;
-        console.log('✅ Metadata uploaded:', metadataUrl);
+        const metadataCID = await uploadJSONToIPFS(metadata);
+        const ipfsUri = `ipfs://${metadataCID}`;
+        console.log('✅ Metadata uploaded to IPFS:', ipfsUri);
 
-        // Step 3: Save to Supabase database
-        console.log('💾 Saving to database...');
-        const credentialHash = generateCredentialHash(metadata);
+        return {
+            metadata,
+            ipfsUri,
+            metadataHash: metadataCID,
+        };
+    } catch (error) {
+        console.error('❌ Error preparing credential metadata:', error);
+        throw error;
+    }
+}
+
+/**
+ * Save credential to database after successful blockchain transaction
+ * This is for indexing only - blockchain is the source of truth
+ */
+export async function saveCredentialToDatabase(
+    data: CredentialData,
+    tokenId: string,
+    blockchainHash: string,
+    metadata: CredentialMetadata,
+    ipfsHash: string
+): Promise<string> {
+    try {
+        console.log('💾 Saving credential to database for indexing...');
+        console.log('Token ID from blockchain:', tokenId);
+        console.log('Blockchain transaction:', blockchainHash);
 
         const { data: dbRecord, error: dbError } = await supabase
             .from('credentials')
@@ -128,29 +151,56 @@ export async function issueCredential(
                 institution_id: data.institutionId,
                 student_wallet_address: data.studentWallet,
                 issuer_wallet_address: data.institutionWallet,
-                ipfs_hash: metadataPath,
+                token_id: tokenId,
+                ipfs_hash: ipfsHash,
+                blockchain_hash: blockchainHash,
                 metadata: metadata,
                 issued_at: new Date().toISOString(),
                 revoked: false,
             }])
-            .select();
+            .select('id')
+            .single();
 
         if (dbError) {
             console.error('Database save error:', dbError);
-            throw new Error('Failed to save credential to database');
+            // Don't throw - blockchain transaction succeeded, database is just for indexing
+            console.warn('⚠️ Blockchain transaction successful but database indexing failed');
+            return '';
         }
 
-        console.log('✅ Credential saved to database');
-
-        return {
-            credentialId: dbRecord?.[0]?.id,
-            ipfsUri: metadataUrl,
-            metadataHash: metadataPath,
-        };
+        console.log('✅ Credential indexed in database');
+        return dbRecord?.id || '';
     } catch (error) {
-        console.error('❌ Error issuing credential:', error);
-        throw error;
+        console.error('❌ Error saving to database:', error);
+        // Don't throw - blockchain is source of truth
+        return '';
     }
+}
+
+/**
+ * @deprecated Use prepareCredentialMetadata and saveCredentialToDatabase separately
+ * This function is kept for backward compatibility but should not be used
+ */
+/**
+ * @deprecated Use prepareCredentialMetadata and saveCredentialToDatabase separately
+ * This function is kept for backward compatibility but should not be used
+ */
+export async function issueCredential(
+    data: CredentialData,
+    account: any
+): Promise<{
+    credentialId?: string;
+    ipfsUri: string;
+    metadataHash: string;
+}> {
+    // This function should not be used - kept for backward compatibility
+    // Use prepareCredentialMetadata first, then blockchain, then saveCredentialToDatabase
+    const result = await prepareCredentialMetadata(data);
+    return {
+        credentialId: undefined,
+        ipfsUri: result.ipfsUri,
+        metadataHash: result.metadataHash,
+    };
 }
 
 /**
