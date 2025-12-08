@@ -930,7 +930,7 @@ Special thanks to the Aptos ecosystem and blockchain community for making this p
 
 ### Connect With Us
 
-- **GitHub**: [https://github.com/thisisouvik/Arcedia](https://github.com/thisisouvik/Arcedia)
+- **GitHub**: [https://github.com/thisisouvik/Arcedia](https://github.com/soumen0818/ACREDIA-APTOS )
 - **Project**: Acredia - Blockchain Academic Credentials
 - **Status**: Active Development
 
