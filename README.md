@@ -74,7 +74,7 @@ The current academic credential system faces critical challenges:
 Acredia creates a **three-layer verification system**:
 
 1. **Blockchain Layer**: Immutable credential records on Aptos Testnet using Move smart contracts
-2. **Storage Layer**: Decentralized metadata storage on IPFS (planned)
+2. **Storage Layer**: Decentralized metadata storage on IPFS via Pinata
 3. **Database Layer**: Fast querying and indexing via Supabase PostgreSQL
 
 This architecture ensures credentials are:
@@ -193,7 +193,8 @@ Acredia uses Move smart contracts deployed on **Aptos Testnet**:
 - **Petra Wallet** - Browser wallet for Aptos blockchain
 
 ### Storage & Backend
-- **IPFS** - Decentralized metadata storage (planned)
+- **Pinata** - Production IPFS gateway for decentralized metadata storage
+- **IPFS** - Decentralized file storage protocol
 - **Supabase** - PostgreSQL database with Row Level Security
 - **PostgreSQL** - Relational database for indexing
 - **RESTful APIs** - Custom API routes in Next.js
@@ -223,8 +224,8 @@ graph TB
     end
     
     subgraph "Storage Layer"
-        G[IPFS Network - Planned]
-        H[Supabase Storage]
+        G[Pinata IPFS Gateway]
+        H[IPFS Network]
     end
     
     subgraph "Database Layer"
@@ -255,7 +256,7 @@ graph TB
 1. **Presentation Layer**: User interfaces for students, institutions, and verifiers
 2. **Application Layer**: Business logic, authentication, and API routes
 3. **Blockchain Layer**: Smart contracts for credential NFTs and registry
-4. **Storage Layer**: IPFS for decentralized metadata storage
+4. **Storage Layer**: Pinata IPFS gateway for decentralized metadata storage
 5. **Database Layer**: Supabase for fast queries and off-chain indexing
 
 ---
@@ -389,8 +390,9 @@ NEXT_PUBLIC_DEPLOYMENT_TX=0xcbf1b7b6c85d5b2ce5717ce3fbad2c56c8d0f41d0277665941e0
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 
-# IPFS Storage (Planned)
-NEXT_PUBLIC_NFT_STORAGE_KEY=your_nft_storage_key
+# Pinata IPFS Configuration (Production)
+PINATA_JWT=your_pinata_jwt_token
+PINATA_API_KEY=your_pinata_api_key
 ```
 
 > **Note**: The Module Address and Deployment TX above are for the deployed Aptos testnet contract. If you deploy your own, replace these values.
@@ -467,10 +469,12 @@ The contract is already deployed on Aptos Testnet. Use these values:
 3. Get your project URL and anon key from Settings > API
 4. Run the provided SQL scripts in SQL Editor (see Database Setup section)
 
-#### NFT.Storage (Optional - For IPFS)
-1. Visit [NFT.Storage](https://nft.storage/)
-2. Create account and generate API token
-3. Will be used for decentralized credential metadata storage
+#### Pinata (For IPFS Storage)
+1. Visit [Pinata](https://pinata.cloud/)
+2. Create free account
+3. Generate API key and JWT token from API Keys section
+4. Add to `.env.local` for production IPFS uploads
+5. Free tier includes 1GB storage
 
 ### Wallet Setup
 
@@ -636,7 +640,7 @@ frontend/
 │   │   ├── aptos.ts               # Aptos transaction builders
 │   │   ├── petraWallet.ts         # Petra wallet integration
 │   │   ├── credentialService.ts   # Credential issuance service
-│   │   ├── ipfs.ts                # IPFS upload utilities (planned)
+│   │   ├── ipfs.ts                # Pinata IPFS upload utilities
 │   │   ├── supabase.ts            # Supabase client
 │   │   ├── contracts.ts           # Contract constants
 │   │   └── utils.ts               # Utility functions
@@ -728,8 +732,8 @@ verification_logs
 ### Data Privacy
 - **Student Control**: Students own their credential NFTs
 - **Selective Disclosure**: Share only what's necessary
-- **IPFS Storage**: Decentralized, censorship-resistant (planned)
-- **No PII on Blockchain**: Personal data only in IPFS/database
+- **IPFS Storage**: Decentralized, censorship-resistant via Pinata gateway
+- **No PII on Blockchain**: Personal data stored in IPFS and indexed in database
 
 ---
 
@@ -802,7 +806,7 @@ pnpm test
 
 ### Phase 2: Enhanced Features 🚧
 - [x] Custom Petra wallet integration
-- [ ] Complete IPFS metadata storage implementation
+- [x] Production IPFS metadata storage via Pinata
 - [ ] Bulk credential issuance
 - [ ] Advanced filtering and search
 - [ ] Email notifications
@@ -844,8 +848,12 @@ pnpm test
   - Ensure your wallet is authorized as an issuer
   - Verify you're connected to Aptos Testnet
 
-**Problem: IPFS upload timeout**
-- Solution: Check internet connection or try again later (IPFS feature planned)
+**Problem: IPFS upload failing**
+- Solution: 
+  - Verify Pinata JWT token is correctly set in `.env.local`
+  - Check internet connection
+  - Ensure Pinata account has available storage quota
+  - Check browser console for specific error messages
 
 **Problem: Verification page shows "not found"**
 - Solution: Ensure RLS policies are enabled in Supabase (run SQL scripts from `frontend/sql/`)
@@ -932,8 +940,7 @@ Special thanks to the Aptos ecosystem and blockchain community for making this p
 
 For questions, feedback, or support:
 
-- Open an issue on [GitHub Issues](https://github.com/thisisouvik/Arcedia/issues)
-- Review documentation in `frontend/docs/`
+- Open an issue on [GitHub Issues](https://github.com/soumen0818/ACREDIA-APTOS)
 - Check existing issues for solutions
 
 ---
