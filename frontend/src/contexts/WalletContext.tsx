@@ -59,7 +59,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
             // Update wallet address in database if user is logged in
             try {
                 const { data: { user } } = await supabase.auth.getUser();
-                if (user && acc.address) {
+                if (user && acc && acc.address) {
                     console.log('💾 Updating wallet address for user:', user.id);
 
                     // Check user role from metadata
