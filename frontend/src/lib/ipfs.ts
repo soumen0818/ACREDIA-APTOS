@@ -1,44 +1,53 @@
 /**
- * Upload file to IPFS using NFT.Storage (free service)
- * Works with any blockchain including Aptos
+ * Upload file to IPFS using our API route
+ * This handles IPFS uploads server-side to avoid CORS and authentication issues
  */
 export async function uploadToIPFS(file: File): Promise<string> {
     try {
+        console.log('📤 Uploading file to IPFS via API route...');
         const formData = new FormData();
         formData.append('file', file);
+        formData.append('isJSON', 'false');
 
-        const response = await fetch('https://api.nft.storage/upload', {
+        const response = await fetch('/api/ipfs/upload', {
             method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${process.env.NEXT_PUBLIC_NFT_STORAGE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDhEODc4NDMzODlCNjE0NjhFNjgxRjI2ODBCNjY4RTQ2RTQwRTQwNkIiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTYzMjE1NTQzMjQ4NCwibmFtZSI6ImRlbW8ifQ.fEcSw_MQjKiUDGhKYqweHqgfY3VfFCXZRQcJoFtYA5U'}`,
-            },
             body: formData,
         });
 
         if (!response.ok) {
-            throw new Error(`NFT.Storage upload failed: ${response.statusText}`);
+            const errorData = await response.json();
+            throw new Error(errorData.error || `Upload failed: ${response.statusText}`);
         }
 
         const result = await response.json();
-        console.log('✅ Uploaded to IPFS:', result.value.cid);
-        return result.value.cid;
+
+        if (!result.success) {
+            throw new Error(result.error || 'Upload failed');
+        }
+
+        console.log('✅ Uploaded to IPFS:', result.cid);
+
+        // Return CID
+        return result.cid;
     } catch (error) {
         console.error('Error uploading to IPFS:', error);
-        throw new Error('Failed to upload to IPFS');
+        throw error;
     }
 }
 
 export async function uploadJSONToIPFS(data: any): Promise<string> {
     try {
+        console.log('📤 Uploading JSON to IPFS via API route...');
+
         // Convert JSON to file
-        const jsonString = JSON.stringify(data);
+        const jsonString = JSON.stringify(data, null, 2);
         const blob = new Blob([jsonString], { type: 'application/json' });
         const file = new File([blob], 'metadata.json', { type: 'application/json' });
 
         return await uploadToIPFS(file);
     } catch (error) {
         console.error('Error uploading JSON to IPFS:', error);
-        throw new Error('Failed to upload JSON to IPFS');
+        throw error;
     }
 }
 
