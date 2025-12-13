@@ -59,7 +59,7 @@ export default function AboutPage() {
 
     const handleDashboardClick = (e: React.MouseEvent, dashboardType: 'student' | 'institution') => {
         e.preventDefault();
-        
+
         // Navigate to solution pages instead of dashboard
         if (dashboardType === 'student') {
             router.push('/solutions/students');
@@ -88,20 +88,20 @@ export default function AboutPage() {
                         </Link>
                         <div className="flex items-center space-x-4">
                             {/* Solutions Dropdown */}
-                            <div 
+                            <div
                                 className="relative"
                                 onMouseEnter={handleMouseEnter}
                                 onMouseLeave={handleMouseLeave}
                             >
-                                <Button 
-                                    variant="ghost" 
+                                <Button
+                                    variant="ghost"
                                     className="text-gray-700 hover:text-teal-600 flex items-center gap-1"
                                 >
                                     Solutions
-                                    <svg 
+                                    <svg
                                         className={`w-4 h-4 transition-transform duration-200 ${showSolutions ? 'rotate-180' : ''}`}
-                                        fill="none" 
-                                        stroke="currentColor" 
+                                        fill="none"
+                                        stroke="currentColor"
                                         viewBox="0 0 24 24"
                                     >
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -110,14 +110,14 @@ export default function AboutPage() {
 
                                 {/* Dropdown Menu */}
                                 {showSolutions && (
-                                    <div 
+                                    <div
                                         className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[95vw] sm:w-[500px] max-w-[500px] bg-white rounded-2xl shadow-2xl border border-gray-200 p-4 sm:p-6 animate-in fade-in slide-in-from-top-5 duration-200"
                                         onMouseEnter={handleMouseEnter}
                                         onMouseLeave={handleMouseLeave}
                                     >
                                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                                             {/* For Universities */}
-                                            <button 
+                                            <button
                                                 onClick={(e) => handleDashboardClick(e, 'institution')}
                                                 className="group text-left w-full"
                                             >
@@ -141,7 +141,7 @@ export default function AboutPage() {
                                             </button>
 
                                             {/* For Students */}
-                                            <button 
+                                            <button
                                                 onClick={(e) => handleDashboardClick(e, 'student')}
                                                 className="group text-left w-full"
                                             >
@@ -571,10 +571,10 @@ export default function AboutPage() {
 
                             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
                                 <Lock className="w-10 h-10 mb-4" />
-                                <h3 className="text-xl font-bold mb-3">Sepolia Testnet</h3>
+                                <h3 className="text-xl font-bold mb-3">Aptos Testnet</h3>
                                 <p className="text-teal-50">
-                                    Currently deployed on Ethereum Sepolia testnet (Chain ID: 11155111) with
-                                    plans for mainnet migration and Layer 2 scaling solutions.
+                                    Currently deployed on Aptos testnet with plans for mainnet migration
+                                    and enhanced scalability features.
                                 </p>
                             </div>
 
