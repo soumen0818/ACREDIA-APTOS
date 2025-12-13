@@ -71,7 +71,7 @@ function RegisterForm() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-teal-50 to-cyan-50 flex items-center justify-center p-4">
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-teal-50 to-cyan-50 flex items-center justify-center p-3 sm:p-4">
             <Card className="w-full max-w-md border-gray-200 bg-white shadow-2xl p-8">
                 <div className="flex flex-col items-center mb-8">
                     <Image
