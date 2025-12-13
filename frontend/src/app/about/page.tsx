@@ -89,7 +89,7 @@ export default function AboutPage() {
                                 ACREDIA
                             </span>
                         </Link>
-                        
+
                         {/* Desktop Navigation */}
                         <div className="hidden md:flex items-center space-x-4">
                             {/* Solutions Dropdown */}
@@ -222,7 +222,7 @@ export default function AboutPage() {
                         <div className="md:hidden mt-4 pb-4 space-y-3 animate-in slide-in-from-top-5 duration-200">
                             <div className="space-y-2">
                                 <p className="px-3 text-xs font-semibold text-gray-500 uppercase">Solutions</p>
-                                <button 
+                                <button
                                     onClick={(e) => {
                                         handleDashboardClick(e, 'institution');
                                         setMobileMenuOpen(false);
@@ -235,7 +235,7 @@ export default function AboutPage() {
                                         <p className="text-xs text-gray-500">Issue credentials</p>
                                     </div>
                                 </button>
-                                <button 
+                                <button
                                     onClick={(e) => {
                                         handleDashboardClick(e, 'student');
                                         setMobileMenuOpen(false);
