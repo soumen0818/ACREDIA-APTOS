@@ -205,31 +205,31 @@ function AdminDashboardContent() {
         <div className="min-h-screen bg-linear-to-br from-gray-50 via-teal-50 to-cyan-50">
             {/* Navigation */}
             <nav className="border-b border-gray-200 bg-white/90 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
-                <div className="container mx-auto px-4 py-4">
+                <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4">
                     <div className="flex items-center justify-between">
-                        <Link href="/" className="flex items-center space-x-3">
+                        <Link href="/" className="flex items-center space-x-2 sm:space-x-3">
                             <Image
                                 src="/logo.png"
                                 alt="Acredia Logo"
                                 width={40}
                                 height={40}
-                                className="rounded-lg"
+                                className="rounded-lg w-8 h-8 sm:w-10 sm:h-10"
                             />
-                            <div>
-                                <span className="text-2xl font-bold bg-linear-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
+                            <div className="flex items-center gap-2">
+                                <span className="text-lg sm:text-2xl font-bold bg-linear-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
                                     ACREDIA
                                 </span>
-                                <span className="ml-2 text-xs bg-red-600 text-white px-2 py-1 rounded-full font-semibold">
+                                <span className="text-xs bg-red-600 text-white px-2 py-1 rounded-full font-semibold">
                                     ADMIN
                                 </span>
                             </div>
                         </Link>
-                        <div className="flex items-center space-x-4">
+                        <div className="flex items-center gap-2 sm:gap-4">
                             <WalletConnectButton />
                             <Link href="/">
-                                <Button variant="ghost" className="text-gray-700 hover:text-red-600">
-                                    <Home className="h-5 w-5 mr-2" />
-                                    Home
+                                <Button variant="ghost" size="sm" className="text-gray-700 hover:text-red-600">
+                                    <Home className="h-4 w-4 sm:h-5 sm:w-5 sm:mr-2" />
+                                    <span className="hidden sm:inline">Home</span>
                                 </Button>
                             </Link>
                         </div>
@@ -238,36 +238,36 @@ function AdminDashboardContent() {
             </nav>
 
             {/* Admin Dashboard Content */}
-            <div className="container mx-auto px-4 py-8">
-                <div className="mb-8">
-                    <div className="flex items-center space-x-3 mb-2">
-                        <Shield className="h-10 w-10 text-red-600" />
-                        <h1 className="text-4xl font-bold text-gray-900">
+            <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-6 md:py-8">
+                <div className="mb-6 sm:mb-8">
+                    <div className="flex items-center space-x-2 sm:space-x-3 mb-2">
+                        <Shield className="h-8 w-8 sm:h-10 sm:w-10 text-red-600" />
+                        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">
                             Admin Dashboard
                         </h1>
                     </div>
-                    <p className="text-gray-600 text-lg">
+                    <p className="text-gray-600 text-sm sm:text-base md:text-lg">
                         Manage institution authorizations and system settings
                     </p>
                 </div>
 
                 {/* Admin Info Card */}
-                <Card className="border-red-200 bg-red-50 p-6 mb-6">
-                    <div className="flex items-start space-x-4">
-                        <CheckCircle2 className="h-6 w-6 text-red-600 mt-1" />
-                        <div className="flex-1">
-                            <h3 className="text-lg font-bold text-red-900 mb-2">
+                <Card className="border-red-200 bg-red-50 p-4 sm:p-6 mb-4 sm:mb-6">
+                    <div className="flex items-start space-x-3 sm:space-x-4">
+                        <CheckCircle2 className="h-5 w-5 sm:h-6 sm:w-6 text-red-600 mt-1 flex-shrink-0" />
+                        <div className="flex-1 min-w-0">
+                            <h3 className="text-base sm:text-lg font-bold text-red-900 mb-2">
                                 ✅ Verified Contract Owner
                             </h3>
                             <div className="space-y-2">
                                 <div>
-                                    <p className="text-sm text-red-700 font-medium">Your Wallet Address:</p>
+                                    <p className="text-xs sm:text-sm text-red-700 font-medium">Your Wallet Address:</p>
                                     <p className="text-xs font-mono text-red-800 break-all">
                                         {account.address}
                                     </p>
                                 </div>
                                 <div>
-                                    <p className="text-sm text-red-700 font-medium">Module Address:</p>
+                                    <p className="text-xs sm:text-sm text-red-700 font-medium">Module Address:</p>
                                     <p className="text-xs font-mono text-red-800 break-all">
                                         {MODULE_ADDRESS}
                                     </p>
