@@ -822,7 +822,7 @@ function VerifyContent() {
                                 <div className="flex items-center justify-between mb-2">
                                     <p className="text-sm font-semibold text-gray-700">Transaction Hash</p>
                                     <Badge variant="outline" className="text-xs">
-                                        zkSync Sepolia
+                                        Aptos Testnet
                                     </Badge>
                                 </div>
                                 <div className="flex items-center space-x-2 bg-gray-50 p-4 rounded-lg border border-gray-200">
@@ -836,7 +836,7 @@ function VerifyContent() {
                                         asChild
                                     >
                                         <a
-                                            href={`https://sepolia.etherscan.io/tx/${credential.blockchain_hash}`}
+                                            href={`https://explorer.aptoslabs.com/txn/${credential.blockchain_hash}?network=testnet`}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                         >
@@ -880,7 +880,7 @@ function VerifyContent() {
                                 <p className="text-sm text-gray-700 flex items-start">
                                     <Shield className="h-5 w-5 text-blue-600 mr-2 mt-0.5 shrink-0" />
                                     <span>
-                                        <strong>Blockchain Security:</strong> This credential is permanently recorded on the zkSync Sepolia blockchain
+                                        <strong>Blockchain Security:</strong> This credential is permanently recorded on the Aptos blockchain
                                         and stored on IPFS, ensuring it cannot be altered, forged, or tampered with.
                                     </span>
                                 </p>
