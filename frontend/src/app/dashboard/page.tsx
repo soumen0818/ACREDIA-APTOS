@@ -137,29 +137,30 @@ function DashboardContent() {
         <div className="min-h-screen bg-linear-to-br from-gray-50 via-teal-50 to-cyan-50">
             {/* Navigation */}
             <nav className="border-b border-gray-200 bg-white/90 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
-                <div className="container mx-auto px-4 py-4">
+                <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4">
                     <div className="flex items-center justify-between">
-                        <Link href="/" className="flex items-center space-x-3">
+                        <Link href="/" className="flex items-center space-x-2 sm:space-x-3">
                             <Image
                                 src="/logo.png"
                                 alt="Acredia Logo"
                                 width={40}
                                 height={40}
-                                className="rounded-lg"
+                                className="rounded-lg w-8 h-8 sm:w-10 sm:h-10"
                             />
-                            <span className="text-2xl font-bold bg-linear-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
+                            <span className="text-lg sm:text-2xl font-bold bg-linear-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
                                 ACREDIA
                             </span>
                         </Link>
-                        <div className="flex items-center space-x-4">
+                        <div className="flex items-center gap-2 sm:gap-4">
                             <WalletConnectButton />
                             <Button
                                 onClick={handleSignOut}
                                 variant="ghost"
+                                size="sm"
                                 className="text-gray-700 hover:text-red-600"
                             >
-                                <LogOut className="h-5 w-5 mr-2" />
-                                Sign Out
+                                <LogOut className="h-4 w-4 sm:h-5 sm:w-5 sm:mr-2" />
+                                <span className="hidden sm:inline">Sign Out</span>
                             </Button>
                         </div>
                     </div>
@@ -167,12 +168,12 @@ function DashboardContent() {
             </nav>
 
             {/* Dashboard Content */}
-            <div className="container mx-auto px-4 py-8">
-                <div className="mb-8">
-                    <h1 className="text-4xl font-bold text-gray-900 mb-2">
+            <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-6 md:py-8">
+                <div className="mb-6 sm:mb-8">
+                    <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2">
                         Welcome, {user?.user_metadata?.name || 'User'}
                     </h1>
-                    <p className="text-gray-600 text-lg capitalize">
+                    <p className="text-gray-600 text-base sm:text-lg capitalize">
                         {userRole} Dashboard
                     </p>
                 </div>
@@ -192,11 +193,11 @@ function DashboardContent() {
 
                         {/* Account Info Card */}
                         {institutionId && (
-                            <Card className="border-gray-200 bg-white shadow-lg p-6">
-                                <h3 className="text-xl font-bold text-gray-900 mb-4">
+                            <Card className="border-gray-200 bg-white shadow-lg p-4 sm:p-6">
+                                <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4">
                                     Account Information
                                 </h3>
-                                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                                     <div>
                                         <p className="text-sm text-gray-500">Email</p>
                                         <p className="text-gray-900 font-medium">{user?.email}</p>
