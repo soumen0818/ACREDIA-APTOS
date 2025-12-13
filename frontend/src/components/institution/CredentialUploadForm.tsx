@@ -241,13 +241,13 @@ export function CredentialUploadForm({
     };
 
     return (
-        <Card className="p-6 bg-white border-gray-200 shadow-lg">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Issue New Credential</h2>
+        <Card className="p-4 sm:p-6 bg-white border-gray-200 shadow-lg">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Issue New Credential</h2>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
                 {/* Student Information */}
-                <div className="space-y-4">
-                    <h3 className="text-lg font-semibold text-gray-900">Student Information</h3>
+                <div className="space-y-3 sm:space-y-4">
+                    <h3 className="text-base sm:text-lg font-semibold text-gray-900">Student Information</h3>
 
                     <div>
                         <Label htmlFor="studentName">Student Name *</Label>
