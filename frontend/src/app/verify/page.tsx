@@ -41,7 +41,12 @@ function VerifyContent() {
         if (tokenId) {
             verifyCredential(tokenId);
         } else {
+            // Reset state when no token is provided (e.g., navigating to /verify without params)
             setLoading(false);
+            setCredential(null);
+            setError(null);
+            setVerificationStatus(null);
+            setManualToken('');
         }
     }, [tokenId]);
 
