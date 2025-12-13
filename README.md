@@ -911,28 +911,14 @@ Special thanks to the Aptos ecosystem and blockchain community for making this p
       <a href="https://github.com/thisisouvik">GitHub</a>
     </td>
     <td align="center">
-      <img src="https://via.placeholder.com/100" width="100px;" alt="Soumen Das"/><br />
-      <sub><b>Soumen Das</b></sub><br />
-      Blockchain Developer
-    </td>
-    <td align="center">
-      <img src="https://via.placeholder.com/100" width="100px;" alt="Snigdha Mandal"/><br />
-      <sub><b>Snigdha Mandal</b></sub><br />
-      Frontend Developer
-    </td>
-    <td align="center">
-      <img src="https://via.placeholder.com/100" width="100px;" alt="Soumen Mandal"/><br />
+      <img src="https://avatars.githubusercontent.com/u/176730425?v=4" width="100px;" alt="Soumen Das"/><br />
       <sub><b>Soumen Mandal</b></sub><br />
-      Full Stack Developer
+      <a href="https://github.com/soumen0818">GitHub</a>
     </td>
+  
   </tr>
 </table>
 
-### Connect With Us
-
-- **GitHub**: [https://github.com/thisisouvik/Arcedia](https://github.com/soumen0818/ACREDIA-APTOS )
-- **Project**: Acredia - Blockchain Academic Credentials
-- **Status**: Active Development
 
 ---
 
