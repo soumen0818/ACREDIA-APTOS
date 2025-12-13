@@ -23,11 +23,14 @@ import {
   Database,
   Fingerprint,
   Network,
-  Coins
+  Coins,
+  Menu,
+  X
 } from 'lucide-react';
 
 export default function Home() {
   const [showSolutions, setShowSolutions] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userRole, setUserRole] = useState<string | null>(null);
   const router = useRouter();
@@ -73,19 +76,21 @@ export default function Home() {
       <nav className="border-b border-gray-200 bg-white/90 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center space-x-3">
+            <Link href="/" className="flex items-center space-x-2 sm:space-x-3">
                 <Image
                   src="/logo.png"
                   alt="Acredia Logo"
                   width={40}
                   height={40}
-                  className="rounded-lg"
+                  className="rounded-lg w-8 h-8 sm:w-10 sm:h-10"
                 />
-              <span className="text-2xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
+              <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
                 ACREDIA
               </span>
             </Link>
-            <div className="flex items-center space-x-4">
+
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center space-x-2 lg:space-x-4">
               {/* Solutions Dropdown */}
               <div 
                 className="relative"
@@ -110,28 +115,28 @@ export default function Home() {
                 {/* Dropdown Menu */}
                 {showSolutions && (
                   <div 
-                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[95vw] sm:w-[500px] max-w-[500px] bg-white rounded-2xl shadow-2xl border border-gray-200 p-4 sm:p-6 animate-in fade-in slide-in-from-top-5 duration-200"
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[500px] bg-white rounded-2xl shadow-2xl border border-gray-200 p-6 animate-in fade-in slide-in-from-top-5 duration-200"
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
                   >
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                    <div className="grid grid-cols-2 gap-6">
                       {/* For Universities */}
                       <button 
                         onClick={(e) => handleDashboardClick(e, 'institution')}
                         className="group text-left w-full"
                       >
-                        <div className="flex flex-col items-center space-y-2 sm:space-y-3 p-4 sm:p-6 rounded-xl hover:bg-teal-50 transition-all duration-300 border-2 border-transparent hover:border-teal-300 hover:shadow-lg">
-                          <div className="bg-gradient-to-br from-teal-500 to-cyan-500 p-3 sm:p-4 rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
-                            <Building2 className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+                        <div className="flex flex-col items-center space-y-3 p-6 rounded-xl hover:bg-teal-50 transition-all duration-300 border-2 border-transparent hover:border-teal-300 hover:shadow-lg">
+                          <div className="bg-gradient-to-br from-teal-500 to-cyan-500 p-4 rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                            <Building2 className="w-8 h-8 text-white" />
                           </div>
                           <div className="text-center">
-                            <h3 className="font-bold text-gray-900 mb-1 sm:mb-2 group-hover:text-teal-600 transition-colors text-base sm:text-lg">
+                            <h3 className="font-bold text-gray-900 mb-2 group-hover:text-teal-600 transition-colors text-lg">
                               For Institutions
                             </h3>
-                            <p className="text-xs sm:text-sm text-gray-600 mb-2 sm:mb-3 px-2">
+                            <p className="text-sm text-gray-600 mb-3 px-2">
                               Issue and manage credentials for your students
                             </p>
-                            <div className="inline-flex items-center gap-2 text-xs text-teal-600 font-semibold opacity-0 group-hover:opacity-100 transition-opacity bg-teal-50 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full">
+                            <div className="inline-flex items-center gap-2 text-xs text-teal-600 font-semibold opacity-0 group-hover:opacity-100 transition-opacity bg-teal-50 px-3 py-1.5 rounded-full">
                               Learn More
                               <ArrowRight className="w-3 h-3" />
                             </div>
@@ -144,18 +149,18 @@ export default function Home() {
                         onClick={(e) => handleDashboardClick(e, 'student')}
                         className="group text-left w-full"
                       >
-                        <div className="flex flex-col items-center space-y-2 sm:space-y-3 p-4 sm:p-6 rounded-xl hover:bg-cyan-50 transition-all duration-300 border-2 border-transparent hover:border-cyan-300 hover:shadow-lg">
-                          <div className="bg-gradient-to-br from-cyan-500 to-blue-500 p-3 sm:p-4 rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
-                            <GraduationCap className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+                        <div className="flex flex-col items-center space-y-3 p-6 rounded-xl hover:bg-cyan-50 transition-all duration-300 border-2 border-transparent hover:border-cyan-300 hover:shadow-lg">
+                          <div className="bg-gradient-to-br from-cyan-500 to-blue-500 p-4 rounded-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                            <GraduationCap className="w-8 h-8 text-white" />
                           </div>
                           <div className="text-center">
-                            <h3 className="font-bold text-gray-900 mb-1 sm:mb-2 group-hover:text-cyan-600 transition-colors text-base sm:text-lg">
+                            <h3 className="font-bold text-gray-900 mb-2 group-hover:text-cyan-600 transition-colors text-lg">
                               For Students
                             </h3>
-                            <p className="text-xs sm:text-sm text-gray-600 mb-2 sm:mb-3 px-2">
+                            <p className="text-sm text-gray-600 mb-3 px-2">
                               View and share your academic credentials
                             </p>
-                            <div className="inline-flex items-center gap-2 text-xs text-cyan-600 font-semibold opacity-0 group-hover:opacity-100 transition-opacity bg-cyan-50 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full">
+                            <div className="inline-flex items-center gap-2 text-xs text-cyan-600 font-semibold opacity-0 group-hover:opacity-100 transition-opacity bg-cyan-50 px-3 py-1.5 rounded-full">
                               Learn More
                               <ArrowRight className="w-3 h-3" />
                             </div>
@@ -165,9 +170,9 @@ export default function Home() {
                     </div>
 
                     {/* Bottom CTA */}
-                    <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-200">
-                      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-0">
-                        <div className="text-center sm:text-left">
+                    <div className="mt-6 pt-6 border-t border-gray-200">
+                      <div className="flex items-center justify-between">
+                        <div>
                           <p className="text-sm font-semibold text-gray-900">
                             New to Acredia?
                           </p>
@@ -176,7 +181,7 @@ export default function Home() {
                           </p>
                         </div>
                         <Link href="/auth/register">
-                            <Button className="bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white shadow-lg hover:shadow-xl transition-all text-sm sm:text-base w-full sm:w-auto">
+                            <Button className="bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white shadow-lg hover:shadow-xl transition-all">
                               Get Started
                               <ArrowRight className="w-4 h-4 ml-2" />
                             </Button>
@@ -204,7 +209,78 @@ export default function Home() {
                 </Button>
               </Link>
             </div>
+
+            {/* Mobile Menu Button */}
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </Button>
           </div>
+
+          {/* Mobile Menu */}
+          {mobileMenuOpen && (
+            <div className="md:hidden mt-4 pb-4 space-y-3 animate-in slide-in-from-top-5 duration-200">
+              {/* Solutions Section */}
+              <div className="space-y-2">
+                <p className="px-3 text-xs font-semibold text-gray-500 uppercase">Solutions</p>
+                <button 
+                  onClick={(e) => {
+                    handleDashboardClick(e, 'institution');
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full flex items-center gap-3 px-3 py-2 text-left text-gray-700 hover:bg-teal-50 rounded-lg transition-colors"
+                >
+                  <Building2 className="w-5 h-5 text-teal-600" />
+                  <div>
+                    <p className="font-medium">For Institutions</p>
+                    <p className="text-xs text-gray-500">Issue credentials</p>
+                  </div>
+                </button>
+                <button 
+                  onClick={(e) => {
+                    handleDashboardClick(e, 'student');
+                    setMobileMenuOpen(false);
+                  }}
+                  className="w-full flex items-center gap-3 px-3 py-2 text-left text-gray-700 hover:bg-cyan-50 rounded-lg transition-colors"
+                >
+                  <GraduationCap className="w-5 h-5 text-cyan-600" />
+                  <div>
+                    <p className="font-medium">For Students</p>
+                    <p className="text-xs text-gray-500">View credentials</p>
+                  </div>
+                </button>
+              </div>
+
+              {/* Navigation Links */}
+              <div className="space-y-1 pt-2 border-t">
+                <Link href="/about" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-teal-600">
+                    About
+                  </Button>
+                </Link>
+                <Link href="/auth/login" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-teal-600">
+                    Sign In
+                  </Button>
+                </Link>
+                <Link href="/auth/register" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-teal-600">
+                    Register
+                  </Button>
+                </Link>
+                <Link href="/verify" onClick={() => setMobileMenuOpen(false)}>
+                  <Button className="w-full bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white mt-2">
+                    <Shield className="w-4 h-4 mr-2" />
+                    Verify Credential
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          )}
         </div>
       </nav>
 
@@ -215,20 +291,21 @@ export default function Home() {
         <div className="absolute top-20 right-0 w-96 h-96 bg-teal-200/20 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-cyan-200/20 rounded-full blur-3xl"></div>
 
-        <div className="relative container mx-auto px-4 py-20 md:py-28">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="relative container mx-auto px-4 py-12 sm:py-16 md:py-20 lg:py-28">
+          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center">
             {/* Left Content */}
-            <div className="space-y-8 z-10">
+            <div className="space-y-6 sm:space-y-8 z-10">
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-teal-200 text-teal-700 px-5 py-3 rounded-full text-sm font-semibold shadow-lg hover:shadow-xl transition-all duration-300">
+              <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-teal-200 text-teal-700 px-3 sm:px-5 py-2 sm:py-3 rounded-full text-xs sm:text-sm font-semibold shadow-lg hover:shadow-xl transition-all duration-300">
                 <div className="w-2 h-2 bg-teal-500 rounded-full animate-pulse"></div>
-                <Sparkles className="w-4 h-4" />
-                <span>Blockchain-Powered Academic Credentials</span>
+                <Sparkles className="w-3 h-3 sm:w-4 sm:h-4" />
+                <span className="hidden sm:inline">Blockchain-Powered Academic Credentials</span>
+                <span className="sm:hidden">Blockchain Credentials</span>
               </div>
 
               {/* Main Headline */}
-              <div className="space-y-4">
-                <h1 className="text-5xl md:text-6xl lg:text-7xl font-black leading-[1.1] tracking-tight">
+              <div className="space-y-3 sm:space-y-4">
+                <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[1.1] tracking-tight">
                   <span className="block text-gray-900">Transform</span>
                   <span className="block text-gray-900">Education</span>
                   <span className="block mt-2">
@@ -238,16 +315,16 @@ export default function Home() {
                   </span>
                 </h1>
 
-                <div className="flex items-center gap-3 flex-wrap">
-                  <span className="inline-flex items-center gap-2 bg-teal-100 text-teal-700 px-3 py-1 rounded-full text-xs font-bold">
+                <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+                  <span className="inline-flex items-center gap-1.5 sm:gap-2 bg-teal-100 text-teal-700 px-2.5 sm:px-3 py-1 rounded-full text-xs font-bold">
                     <Shield className="w-3 h-3" />
                     SECURE
                   </span>
-                  <span className="inline-flex items-center gap-2 bg-cyan-100 text-cyan-700 px-3 py-1 rounded-full text-xs font-bold">
+                  <span className="inline-flex items-center gap-1.5 sm:gap-2 bg-cyan-100 text-cyan-700 px-2.5 sm:px-3 py-1 rounded-full text-xs font-bold">
                     <Lock className="w-3 h-3" />
                     VERIFIED
                   </span>
-                  <span className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold">
+                  <span className="inline-flex items-center gap-1.5 sm:gap-2 bg-blue-100 text-blue-700 px-2.5 sm:px-3 py-1 rounded-full text-xs font-bold">
                     <Globe className="w-3 h-3" />
                     GLOBAL
                   </span>
@@ -255,23 +332,23 @@ export default function Home() {
               </div>
 
               {/* Description */}
-              <p className="text-xl text-gray-600 leading-relaxed max-w-xl">
+              <p className="text-base sm:text-lg md:text-xl text-gray-600 leading-relaxed max-w-xl">
                 Issue, verify, and manage <span className="font-bold text-teal-600">tamper-proof</span> academic
                 credentials on the blockchain with <span className="font-bold text-cyan-600">Soulbound NFTs</span>,
                 <span className="font-bold text-blue-600"> Zero-Knowledge Proofs</span>, and AI verification.
               </p>
 
               {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Link href="/auth/register?role=institution" className="group">
-                  <Button size="lg" className="w-full sm:w-auto bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white px-10 py-7 text-lg font-bold shadow-2xl hover:shadow-teal-500/50 transition-all duration-300 hover:scale-105">
-                    <Building2 className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2 sm:pt-4">
+                <Link href="/auth/register?role=institution" className="group w-full sm:w-auto">
+                  <Button size="lg" className="w-full sm:w-auto bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white px-6 sm:px-10 py-5 sm:py-7 text-base sm:text-lg font-bold shadow-2xl hover:shadow-teal-500/50 transition-all duration-300 hover:scale-105">
+                    <Building2 className="w-4 h-4 sm:w-5 sm:h-5 mr-2 group-hover:rotate-12 transition-transform" />
                     Get Started Now
-                    <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </Link>
-                <Link href="/about" className="group">
-                  <Button size="lg" variant="outline" className="w-full sm:w-auto border-2 border-gray-300 hover:border-teal-600 text-gray-700 hover:text-teal-600 hover:bg-teal-50 px-10 py-7 text-lg font-bold transition-all duration-300">
+                <Link href="/about" className="group w-full sm:w-auto">
+                  <Button size="lg" variant="outline" className="w-full sm:w-auto border-2 border-gray-300 hover:border-teal-600 text-gray-700 hover:text-teal-600 hover:bg-teal-50 px-6 sm:px-10 py-5 sm:py-7 text-base sm:text-lg font-bold transition-all duration-300">
                     Learn More
                     <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
                   </Button>
