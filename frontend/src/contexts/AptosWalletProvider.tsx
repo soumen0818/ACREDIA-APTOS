@@ -11,7 +11,7 @@ export function AptosWalletProvider({ children }: { children: ReactNode }) {
     return (
         <AptosWalletAdapterProvider
             plugins={wallets}
-            autoConnect={false}
+            autoConnect={true}
             dappConfig={{
                 network: Network.TESTNET,
             }}
