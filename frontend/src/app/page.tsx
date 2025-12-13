@@ -50,7 +50,7 @@ export default function Home() {
 
   const handleDashboardClick = (e: React.MouseEvent, dashboardType: 'student' | 'institution') => {
     e.preventDefault();
-    
+
     // Navigate to solution pages instead of dashboard
     if (dashboardType === 'student') {
       router.push('/solutions/students');
@@ -77,13 +77,13 @@ export default function Home() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center space-x-2 sm:space-x-3">
-                <Image
-                  src="/logo.png"
-                  alt="Acredia Logo"
-                  width={40}
-                  height={40}
-                  className="rounded-lg w-8 h-8 sm:w-10 sm:h-10"
-                />
+              <Image
+                src="/logo.png"
+                alt="Acredia Logo"
+                width={40}
+                height={40}
+                className="rounded-lg w-8 h-8 sm:w-10 sm:h-10"
+              />
               <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
                 ACREDIA
               </span>
@@ -92,20 +92,20 @@ export default function Home() {
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-2 lg:space-x-4">
               {/* Solutions Dropdown */}
-              <div 
+              <div
                 className="relative"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
               >
-                <Button 
-                  variant="ghost" 
+                <Button
+                  variant="ghost"
                   className="text-gray-700 hover:text-teal-600 flex items-center gap-1"
                 >
                   Solutions
-                  <svg 
+                  <svg
                     className={`w-4 h-4 transition-transform duration-200 ${showSolutions ? 'rotate-180' : ''}`}
-                    fill="none" 
-                    stroke="currentColor" 
+                    fill="none"
+                    stroke="currentColor"
                     viewBox="0 0 24 24"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -114,14 +114,14 @@ export default function Home() {
 
                 {/* Dropdown Menu */}
                 {showSolutions && (
-                  <div 
+                  <div
                     className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[500px] bg-white rounded-2xl shadow-2xl border border-gray-200 p-6 animate-in fade-in slide-in-from-top-5 duration-200"
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
                   >
                     <div className="grid grid-cols-2 gap-6">
                       {/* For Universities */}
-                      <button 
+                      <button
                         onClick={(e) => handleDashboardClick(e, 'institution')}
                         className="group text-left w-full"
                       >
@@ -145,7 +145,7 @@ export default function Home() {
                       </button>
 
                       {/* For Students */}
-                      <button 
+                      <button
                         onClick={(e) => handleDashboardClick(e, 'student')}
                         className="group text-left w-full"
                       >
@@ -181,11 +181,11 @@ export default function Home() {
                           </p>
                         </div>
                         <Link href="/auth/register">
-                            <Button className="bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white shadow-lg hover:shadow-xl transition-all">
-                              Get Started
-                              <ArrowRight className="w-4 h-4 ml-2" />
-                            </Button>
-                          </Link>
+                          <Button className="bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white shadow-lg hover:shadow-xl transition-all">
+                            Get Started
+                            <ArrowRight className="w-4 h-4 ml-2" />
+                          </Button>
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -227,7 +227,7 @@ export default function Home() {
               {/* Solutions Section */}
               <div className="space-y-2">
                 <p className="px-3 text-xs font-semibold text-gray-500 uppercase">Solutions</p>
-                <button 
+                <button
                   onClick={(e) => {
                     handleDashboardClick(e, 'institution');
                     setMobileMenuOpen(false);
@@ -240,7 +240,7 @@ export default function Home() {
                     <p className="text-xs text-gray-500">Issue credentials</p>
                   </div>
                 </button>
-                <button 
+                <button
                   onClick={(e) => {
                     handleDashboardClick(e, 'student');
                     setMobileMenuOpen(false);
@@ -678,7 +678,7 @@ export default function Home() {
       <section className="relative py-24 overflow-hidden">
         {/* Transparent Gradient Background */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#0C8B8C]/20 via-[#0E9C9D]/20 to-[#00B8C0]/20 backdrop-blur-sm"></div>
-        
+
         <div className="container mx-auto px-4 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left Content */}
