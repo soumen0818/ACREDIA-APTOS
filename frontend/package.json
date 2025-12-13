@@ -8,8 +8,9 @@
     "start": "next start"
   },
   "dependencies": {
-    "@aptos-labs/ts-sdk": "^1.21.0",
-    "@aptos-labs/wallet-adapter-react": "^1.3.0",
+    "@aptos-labs/ts-sdk": "^1.39.0",
+    "@aptos-labs/wallet-adapter-react": "^3.7.2",
+    "@aptos-labs/wallet-adapter-core": "^4.20.0",
     "@hookform/resolvers": "^5.2.2",
     "@radix-ui/react-avatar": "^1.1.11",
     "@radix-ui/react-dialog": "^1.1.15",
@@ -28,6 +29,7 @@
     "next": "15.5.9",
     "next-themes": "^0.4.6",
     "nft.storage": "^7.2.0",
+    "petra-plugin-wallet-adapter": "^0.4.5",
     "qrcode": "^1.5.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
