@@ -189,36 +189,36 @@ function VerifyContent() {
             <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-teal-50">
                 {/* Navbar */}
                 <nav className="border-b border-gray-200 bg-white/90 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
-                    <div className="container mx-auto px-4 py-4">
+                    <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4">
                         <div className="flex items-center justify-between">
-                            <Link href="/" className="flex items-center space-x-3">
+                            <Link href="/" className="flex items-center space-x-2 sm:space-x-3">
                                 <Image
                                     src="/logo.png"
                                     alt="Acredia Logo"
                                     width={40}
                                     height={40}
-                                    className="rounded-lg"
+                                    className="rounded-lg w-8 h-8 sm:w-10 sm:h-10"
                                 />
-                                <div>
-                                    <span className="text-2xl font-bold bg-linear-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
+                                <div className="flex items-center gap-2">
+                                    <span className="text-lg sm:text-2xl font-bold bg-linear-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
                                         ACREDIA
                                     </span>
-                                    <span className="ml-2 text-xs bg-blue-600 text-white px-2 py-1 rounded-full font-semibold">
+                                    <span className="text-xs bg-blue-600 text-white px-2 py-1 rounded-full font-semibold">
                                         VERIFY
                                     </span>
                                 </div>
                             </Link>
-                            <div className="flex items-center space-x-4">
+                            <div className="flex items-center gap-2 sm:gap-4">
                                 <Link href="/">
                                     <Button variant="ghost" size="sm">
-                                        <Home className="h-4 w-4 mr-2" />
-                                        Home
+                                        <Home className="h-4 w-4 sm:mr-2" />
+                                        <span className="hidden sm:inline">Home</span>
                                     </Button>
                                 </Link>
                                 <Link href="/about">
                                     <Button variant="ghost" size="sm">
-                                        <Info className="h-4 w-4 mr-2" />
-                                        About
+                                        <Info className="h-4 w-4 sm:mr-2" />
+                                        <span className="hidden sm:inline">About</span>
                                     </Button>
                                 </Link>
                             </div>
@@ -227,39 +227,39 @@ function VerifyContent() {
                 </nav>
 
                 {/* Hero Section */}
-                <div className="container mx-auto px-4 py-12">
+                <div className="container mx-auto px-3 sm:px-4 py-6 sm:py-8 md:py-12">
                     <div className="max-w-4xl mx-auto">
                         {/* Info Cards */}
-                        <div className="grid md:grid-cols-3 gap-4 mb-8">
-                            <Card className="p-4 bg-white/80 backdrop-blur border-blue-200">
-                                <div className="flex items-center space-x-3">
-                                    <div className="rounded-full bg-blue-100 p-3">
-                                        <Shield className="h-6 w-6 text-blue-600" />
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-8">
+                            <Card className="p-3 sm:p-4 bg-white/80 backdrop-blur border-blue-200">
+                                <div className="flex items-center space-x-2 sm:space-x-3">
+                                    <div className="rounded-full bg-blue-100 p-2 sm:p-3">
+                                        <Shield className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
                                     </div>
                                     <div>
-                                        <h3 className="font-semibold text-gray-900">Blockchain Secured</h3>
+                                        <h3 className="text-sm sm:text-base font-semibold text-gray-900">Blockchain Secured</h3>
                                         <p className="text-xs text-gray-600">Tamper-proof verification</p>
                                     </div>
                                 </div>
                             </Card>
-                            <Card className="p-4 bg-white/80 backdrop-blur border-teal-200">
-                                <div className="flex items-center space-x-3">
-                                    <div className="rounded-full bg-teal-100 p-3">
-                                        <Award className="h-6 w-6 text-teal-600" />
+                            <Card className="p-3 sm:p-4 bg-white/80 backdrop-blur border-teal-200">
+                                <div className="flex items-center space-x-2 sm:space-x-3">
+                                    <div className="rounded-full bg-teal-100 p-2 sm:p-3">
+                                        <Award className="h-5 w-5 sm:h-6 sm:w-6 text-teal-600" />
                                     </div>
                                     <div>
-                                        <h3 className="font-semibold text-gray-900">Instant Verification</h3>
+                                        <h3 className="text-sm sm:text-base font-semibold text-gray-900">Instant Verification</h3>
                                         <p className="text-xs text-gray-600">Real-time credential check</p>
                                     </div>
                                 </div>
                             </Card>
-                            <Card className="p-4 bg-white/80 backdrop-blur border-purple-200">
-                                <div className="flex items-center space-x-3">
-                                    <div className="rounded-full bg-purple-100 p-3">
-                                        <Lock className="h-6 w-6 text-purple-600" />
+                            <Card className="p-3 sm:p-4 bg-white/80 backdrop-blur border-purple-200">
+                                <div className="flex items-center space-x-2 sm:space-x-3">
+                                    <div className="rounded-full bg-purple-100 p-2 sm:p-3">
+                                        <Lock className="h-5 w-5 sm:h-6 sm:w-6 text-purple-600" />
                                     </div>
                                     <div>
-                                        <h3 className="font-semibold text-gray-900">Privacy Protected</h3>
+                                        <h3 className="text-sm sm:text-base font-semibold text-gray-900">Privacy Protected</h3>
                                         <p className="text-xs text-gray-600">Secure credential data</p>
                                     </div>
                                 </div>
@@ -267,19 +267,19 @@ function VerifyContent() {
                         </div>
 
                         {/* Main Verification Card */}
-                        <Card className="p-8 md:p-12 bg-white/90 backdrop-blur shadow-xl">
-                            <div className="flex flex-col items-center space-y-6">
-                                <div className="rounded-full bg-linear-to-br from-blue-100 to-teal-100 p-8">
-                                    <Shield className="h-20 w-20 text-blue-600" />
+                        <Card className="p-6 sm:p-8 md:p-12 bg-white/90 backdrop-blur shadow-xl">
+                            <div className="flex flex-col items-center space-y-4 sm:space-y-6">
+                                <div className="rounded-full bg-linear-to-br from-blue-100 to-teal-100 p-6 sm:p-8">
+                                    <Shield className="h-16 w-16 sm:h-20 sm:w-20 text-blue-600" />
                                 </div>
-                                <div className="text-center space-y-3">
-                                    <h1 className="text-4xl font-bold text-gray-900">Verify Academic Credential</h1>
-                                    <p className="text-lg text-gray-600 max-w-2xl">
+                                <div className="text-center space-y-2 sm:space-y-3">
+                                    <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">Verify Academic Credential</h1>
+                                    <p className="text-sm sm:text-base md:text-lg text-gray-600 max-w-2xl px-4">
                                         Enter a credential token ID to instantly verify its authenticity on the blockchain
                                     </p>
                                 </div>
 
-                                <div className="w-full max-w-md space-y-4">
+                                <div className="w-full max-w-md space-y-3 sm:space-y-4">
                                     <div>
                                         <label className="block text-sm font-semibold text-gray-700 mb-2">
                                             Credential Token ID
@@ -290,7 +290,7 @@ function VerifyContent() {
                                             onChange={(e) => setManualToken(e.target.value)}
                                             onKeyPress={(e) => e.key === 'Enter' && handleManualVerify()}
                                             placeholder="Enter token ID (e.g., 1, 2, 3...)"
-                                            className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                                            className="w-full px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                                         />
                                         <p className="text-xs text-gray-500 mt-2">
                                             💡 The token ID can be found on the credential or in the QR code
