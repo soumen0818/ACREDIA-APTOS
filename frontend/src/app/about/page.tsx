@@ -24,11 +24,14 @@ import {
     Network,
     CloudUpload,
     QrCode,
-    Search
+    Search,
+    Menu,
+    X
 } from 'lucide-react';
 
 export default function AboutPage() {
     const [showSolutions, setShowSolutions] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userRole, setUserRole] = useState<string | null>(null);
     const router = useRouter();
@@ -72,21 +75,23 @@ export default function AboutPage() {
         <div className="min-h-screen bg-gradient-to-br from-gray-50 via-teal-50 to-cyan-50">
             {/* Navigation */}
             <nav className="border-b border-gray-200 bg-white/90 backdrop-blur-lg sticky top-0 z-50 shadow-sm">
-                <div className="container mx-auto px-4 py-4">
+                <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4">
                     <div className="flex items-center justify-between">
-                        <Link href="/" className="flex items-center space-x-3">
+                        <Link href="/" className="flex items-center space-x-2 sm:space-x-3">
                             <Image
                                 src="/logo.png"
                                 alt="Acredia Logo"
                                 width={40}
                                 height={40}
-                                className="rounded-lg"
+                                className="rounded-lg w-8 h-8 sm:w-10 sm:h-10"
                             />
-                            <span className="text-2xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
+                            <span className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
                                 ACREDIA
                             </span>
                         </Link>
-                        <div className="flex items-center space-x-4">
+                        
+                        {/* Desktop Navigation */}
+                        <div className="hidden md:flex items-center space-x-4">
                             {/* Solutions Dropdown */}
                             <div
                                 className="relative"
@@ -188,11 +193,6 @@ export default function AboutPage() {
                                 )}
                             </div>
 
-                            <Link href="/about">
-                                <Button variant="ghost" className="text-gray-700 hover:text-teal-600">
-                                    About
-                                </Button>
-                            </Link>
                             <Link href="/auth/login">
                                 <Button variant="ghost" className="text-gray-700 hover:text-teal-600">
                                     Sign In
@@ -205,14 +205,78 @@ export default function AboutPage() {
                                 </Button>
                             </Link>
                         </div>
+
+                        {/* Mobile Menu Button */}
+                        <Button
+                            variant="ghost"
+                            size="icon"
+                            className="md:hidden"
+                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                        >
+                            {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+                        </Button>
                     </div>
+
+                    {/* Mobile Menu */}
+                    {mobileMenuOpen && (
+                        <div className="md:hidden mt-4 pb-4 space-y-3 animate-in slide-in-from-top-5 duration-200">
+                            <div className="space-y-2">
+                                <p className="px-3 text-xs font-semibold text-gray-500 uppercase">Solutions</p>
+                                <button 
+                                    onClick={(e) => {
+                                        handleDashboardClick(e, 'institution');
+                                        setMobileMenuOpen(false);
+                                    }}
+                                    className="w-full flex items-center gap-3 px-3 py-2 text-left text-gray-700 hover:bg-teal-50 rounded-lg transition-colors"
+                                >
+                                    <Building2 className="w-5 h-5 text-teal-600" />
+                                    <div>
+                                        <p className="font-medium">For Institutions</p>
+                                        <p className="text-xs text-gray-500">Issue credentials</p>
+                                    </div>
+                                </button>
+                                <button 
+                                    onClick={(e) => {
+                                        handleDashboardClick(e, 'student');
+                                        setMobileMenuOpen(false);
+                                    }}
+                                    className="w-full flex items-center gap-3 px-3 py-2 text-left text-gray-700 hover:bg-cyan-50 rounded-lg transition-colors"
+                                >
+                                    <GraduationCap className="w-5 h-5 text-cyan-600" />
+                                    <div>
+                                        <p className="font-medium">For Students</p>
+                                        <p className="text-xs text-gray-500">View credentials</p>
+                                    </div>
+                                </button>
+                            </div>
+
+                            <div className="space-y-1 pt-2 border-t">
+                                <Link href="/auth/login" onClick={() => setMobileMenuOpen(false)}>
+                                    <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-teal-600">
+                                        Sign In
+                                    </Button>
+                                </Link>
+                                <Link href="/auth/register" onClick={() => setMobileMenuOpen(false)}>
+                                    <Button variant="ghost" className="w-full justify-start text-gray-700 hover:text-teal-600">
+                                        Register
+                                    </Button>
+                                </Link>
+                                <Link href="/verify" onClick={() => setMobileMenuOpen(false)}>
+                                    <Button className="w-full bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-700 hover:to-cyan-700 text-white mt-2">
+                                        <Shield className="w-4 h-4 mr-2" />
+                                        Verify Credential
+                                    </Button>
+                                </Link>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </nav>
 
             {/* Hero Section */}
-            <section className="container mx-auto px-4 py-20">
-                <div className="max-w-4xl mx-auto text-center space-y-6">
-                    <h1 className="text-5xl md:text-6xl font-bold leading-tight">
+            <section className="container mx-auto px-3 sm:px-4 py-12 sm:py-16 md:py-20">
+                <div className="max-w-4xl mx-auto text-center space-y-4 sm:space-y-6">
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
                         <span className="text-gray-900">About </span>
                         <span className="bg-gradient-to-r from-teal-600 to-cyan-600 bg-clip-text text-transparent">
                             Acredia
