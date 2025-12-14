@@ -94,26 +94,26 @@ This architecture ensures credentials are:
 *Modern, responsive landing page showcasing the platform's features*
 
 ### Student Dashboard
-<img src="frontend/public/student.png" alt="Student Dashboard" width="800"/>
+<img src="frontend/public/student_dashboard.png" alt="Student Dashboard" width="800"/>
 
 *Students can view all their credentials with detailed information and blockchain verification*
 
 ### Institution Dashboard
-<img src="frontend/public/institute.png" alt="Institution Dashboard" width="800"/>
+<img src="frontend/public/institution_dashboard.png" alt="Institution Dashboard" width="800"/>
 
 *Institutions can issue credentials with subject-wise marks, grades, and complete academic records*
 
 ### Credential Verification
-<img src="frontend/public/verify1.png" alt="Verification Page" width="800"/>
+<img src="frontend/public/verification1.png" alt="Verification Page" width="800"/>
 
 *Public verification page with blockchain proof and comprehensive credential details*
 
-<img src="frontend/public/verify2.png" alt="Verification Details" width="800"/>
+<img src="frontend/public/verification2.png" alt="Verification Details" width="800"/>
 
 *Detailed subject-wise performance and blockchain transaction information*
 
 ### Admin Panel
-<img src="frontend/public/admin.png" alt="Admin Panel" width="800"/>
+<img src="frontend/public/admin_dashboard.png" alt="Admin Panel" width="800"/>
 
 *Contract owner dashboard for authorizing institutions and monitoring system statistics*
 
